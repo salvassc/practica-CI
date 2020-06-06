@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    stages {
+        stage("Build project") {
+            steps {
+                sh "mvn clean package -DskipTests"
+            }
+        }
+        stage("Unitary Test") {
+            steps {
+                sh "mvn -Dtest=UnitaryTest test"
+            }
+        }
+        stage("E2E Test") {
+            steps {
+                sh "mvn -Dtest=SeleniumTest test"
+            }
+        }
+        stage("Code quality"){
+            steps {
+                sh "mvn verify -DskipTests sonar:sonar"
+            }
+        }
+    }
+    post {
+        always {
+            junit "target/surefire-reports/TEST-*.xml"
+        }
+    }
+}
