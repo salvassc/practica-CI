@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage("Checkout project") {
-            steps {
-                git 'https://github.com/salvassc/practica-CI'
-            }
-        }
         stage("Build project") {
             steps {
                 sh "mvn clean package -DskipTests"
