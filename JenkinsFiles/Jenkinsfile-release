@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Tag repository') {
             steps {
-                sh '.././changeTag.sh ${TAG} pom.xml'
+                sh '.././changeVersion.sh ${TAG} pom.xml'
             }
         }
         stage("Build project") {
