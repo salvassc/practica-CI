@@ -27,7 +27,7 @@ pipeline {
                     nexusPublisher nexusInstanceId: 'localNexus', nexusRepositoryId: 'mvn-snapshots',
                     packages: [[$class: 'MavenPackage',
                     mavenAssetList: [[classifier: '', extension: '',
-                    filePath: 'target/*.jar']],
+                    filePath: 'target/practica-CI-1.0.0-SNAPSHOT.jar']],
                     mavenCoordinate: [
                     artifactId: 'practica-CI',
                     groupId: 'es.urjc.code',
