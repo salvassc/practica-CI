@@ -21,6 +21,21 @@ pipeline {
                 sh "mvn verify -DskipTests sonar:sonar"
             }
         }
+        stage("Deploy nexus"){
+            steps {
+                script {
+                    nexusPublisher nexusInstanceId: 'localNexus', nexusRepositoryId: 'mvn-snapshots',
+                    packages: [[$class: 'MavenPackage',
+                    mavenAssetList: [[classifier: '', extension: '',
+                    filePath: 'target/*.jar']],
+                    mavenCoordinate: [
+                    artifactId: 'practica-CI',
+                    groupId: 'es.urjc.code',
+                    packaging: 'jar', version: '0.0.0']]]
+                }
+                
+            }
+        }
     }
     post {
         always {
