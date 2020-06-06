@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage("Checkout project") {
+            steps {
+                git 'https://github.com/salvassc/practica-CI'
+            }
+        }
         stage("Build project") {
             steps {
                 sh "mvn clean package -DskipTests"
@@ -24,7 +29,7 @@ pipeline {
         stage("Deploy nexus"){
             steps {
                 script {
-                    nexusPublisher nexusInstanceId: 'localNexus', nexusRepositoryId: 'mvn-snapshots', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/practica-CI-1.0.0-SNAPSHOT.jar']], mavenCoordinate: [artifactId: 'practica-CI', groupId: 'es.urjc.code', packaging: 'jar', version: '1.0.0-SNAPSHOT']]]
+                    nexusPublisher nexusInstanceId: 'localNexus', nexusRepositoryId: 'mvn-snapshots', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/practica-CI-0.0.1-SNAPSHOT.jar']], mavenCoordinate: [artifactId: 'practica-CI', groupId: 'es.urjc.code', packaging: 'jar', version: '0.0.1-nightly']]]
                 }          
             }
         }
