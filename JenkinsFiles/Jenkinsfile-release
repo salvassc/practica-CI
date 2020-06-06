@@ -2,7 +2,9 @@ pipeline {
     agent any
     stages {
         stage ('Tag repository') {
-            sh '.././changeTag.sh ${TAG} pom.xml'
+            steps {
+                sh '.././changeTag.sh ${TAG} pom.xml'
+            }
         }
         stage("Build project") {
             steps {
@@ -14,7 +16,6 @@ pipeline {
                 script {
                     nexusPublisher nexusInstanceId: 'localNexus', nexusRepositoryId: 'mvn-snapshots', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/practica-CI-${TAG}.jar']], mavenCoordinate: [artifactId: 'practica-CI', groupId: 'es.urjc.code', packaging: 'jar', version: '${TAG}']]]
                 }
-                
             }
         }
     }
